@@ -20,6 +20,22 @@ const directionLeft = "ArrowLeft";
 const directionRight = "ArrowRight";
 const directionDown = "ArrowDown";
 const directionUp = "ArrowUp";
+const gameContainer = document.querySelector(".container");
+/* #endregion */
+
+/* #region Prevent scrolling on mobile */
+// Function to check if an element is fully in the viewport
+function isElementInViewport(el) {
+  const rect = el.getBoundingClientRect();
+  return (
+    rect.top >= 0 &&
+    rect.left >= 0 &&
+    rect.bottom <=
+      (window.innerHeight || document.documentElement.clientHeight) &&
+    rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+  );
+}
+
 /* #endregion */
 
 /* #region Main */
@@ -118,6 +134,41 @@ function handleTouchEnd(event) {
     }
   }
 }
+
+// Prevent default touch behavior when game container is in viewport
+// But allow clicks on interactive elements like buttons
+document.addEventListener(
+  "touchmove",
+  function (e) {
+    // Check if the touch target is a button or other interactive element
+    const target = e.target;
+    const isButton =
+      target.tagName === "BUTTON" ||
+      target.classList.contains("button") ||
+      target.closest(".button");
+
+    // Don't prevent default if touching a button
+    if (isButton) {
+      return;
+    }
+
+    // Otherwise prevent scrolling when the game container is in viewport
+    if (isElementInViewport(gameContainer)) {
+      e.preventDefault();
+    }
+  },
+  { passive: false }
+);
+
+// For the game field, we still want to prevent scrolling but allow swipes
+gameField.addEventListener(
+  "touchmove",
+  function (e) {
+    // We still need this for the game field to handle swipes correctly
+    e.preventDefault();
+  },
+  { passive: false }
+);
 /* #endregion */
 
 function makeMove(direction) {
