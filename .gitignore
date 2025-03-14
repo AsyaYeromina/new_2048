@@ -1,0 +1,16 @@
+# Dependency directories
+node_modules/
+
+# Build output
+dist/
+
+# Editor directories and files
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Sass
+.sass-cache/
+*.css.map
+*.sass.map
+*.scss.map

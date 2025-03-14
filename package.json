@@ -1,0 +1,24 @@
+{
+  "name": "new_2048",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "npm run build && concurrently \"npm run watch:scss\" \"npm run watch:html-js\" \"npm run serve\"",
+    "build": "sass src/styles/style.scss dist/style.css --no-source-map && cp src/index.html dist/ && cp src/scripts/main.js dist/",
+    "watch:scss": "sass --watch src/styles/style.scss dist/style.css --no-source-map",
+    "watch:html-js": "chokidar \"src/index.html\" \"src/scripts/main.js\" -c \"cp src/index.html dist/ && cp src/scripts/main.js dist/\"",
+    "serve": "live-server dist --wait=100",
+    "deploy": "npm run build && gh-pages -d dist"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "chokidar-cli": "^3.0.0",
+    "concurrently": "^9.1.2",
+    "gh-pages": "^6.3.0",
+    "live-server": "^1.2.2",
+    "sass": "^1.85.1"
+  }
+}
